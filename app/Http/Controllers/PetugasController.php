@@ -18,11 +18,12 @@ use Illuminate\Support\Facades\Redis;
 class PetugasController extends Controller
 {
     function index()
-    {
-        $judul = "selamat datang asep";
+    {  $masyarakat =DB::table('masyarakat')->count('nama');
+        $pengaduan = DB::table('pengaduan')->count('isi_laporan');
+        $petugas = DB::table('petugas')->count('nama_petugas');
+        $tanggapan = DB::table('tanggapan')->count('tanggapan');
 
-        $petugas = DB::table('petugas')->get();
-        return view('petugas', ['TextJudul' => $judul, 'petugas' => $petugas]);
+        return view('/petugas-home', ['tanggapan'=>$tanggapan,'petugas'=>$petugas,'masyarakat' =>  $masyarakat, 'pengaduan' => $pengaduan]);
     }
 
     function tampil_petugas()
@@ -37,30 +38,34 @@ class PetugasController extends Controller
         $request->validate([
             'nama' => 'required|min:5'
         ]);
-        $nama = $request->nama;
         $username = $request->username;
-        $password = $request->password;
-        $telp = $request->telp;
+        $nama = $request->nama;
         $level = $request->level;
+        $telp = $request->telp;
+        $password = $request->password;
 
         DB::table('petugas')->insert([
-
-            'nama_petugas' => $nama,
             'username' => $username,
-            'password' => Hash::make($password),
-            'telp' => $telp,
+            'nama_petugas' => $nama,
             'level' => $level,
-
+            'telp' => $telp,
+            'password' => Hash::make($password),
+            
         ]);
 
         return redirect('/petugas');
     }
 
-    function detail_petugas($id)
+    function pengaduan(){
+        $pengaduan = DB::table('pengaduan')->get();
+        return view('/pengaduan-petugas',['pengaduan'=>$pengaduan]);
+    }
+
+    function petugas()
     {
         // $pengaduan = Pengaduan::where"id_pengaduan",$id->first();
-        $petugas = DB::table('petugas')->where('id_petugas', $id)->first();
-        return view('detail-petugas', ['petugas' => $petugas]);
+        $petugas = DB::table('petugas')->get();
+        return view('petugas', ['petugas' => $petugas]);
     }
 
     function update_petugas($id)
@@ -82,28 +87,28 @@ class PetugasController extends Controller
 
     function petugas_login()
     {
-        return view('/petugas_login');
+        return view('/petugas-login');
     }
 
     function login_petugas(Request $request)
     {
         $data = $request->only("username", "password");
         if (Auth::guard("CekPetugas")->attempt($data)) {
-            return redirect('/Petugas_home');
+            return redirect('/petugas-home');
         } else {
-            return view('petugas_login');
+            return view('petugas-login');
         }
     }
 
     public function Petugas_home()
     {
         $pengaduan = pengaduan::all();
-        return view('/Petugas_home', ['pengaduan' => $pengaduan]);
+        return view('/Petugas-home', ['pengaduan' => $pengaduan]);
     }
 
     function tampil_register_petugas()
     {
-        return view('/petugas_register');
+        return view('/petugas-register');
     }
 
     function petugas_register(Request $request)
@@ -122,7 +127,7 @@ class PetugasController extends Controller
             'telp' => $telepon
         ]);
 
-        return redirect('/petugas_login');
+        return redirect('/petugas-login');
     }
 
     function petugas_logout()
@@ -130,20 +135,22 @@ class PetugasController extends Controller
         Session::flush();
         Auth::logout();
 
-        return redirect('/petugas_login');
+        return redirect('/petugas-login');
     }
 
-    function detail_petugas_tanggapan(request $request, $id)
+    function petugas_tanggapan(request $request, $id)
     {
         $pengaduan = DB::table('pengaduan')->where('id_pengaduan', $id)->first();
-        $petugas = DB::table('petugas')->get();
-        $tanggapan = DB::table('tanggapan')
-            ->join('pengaduan', 'tanggapan.id_tanggapan', '=', 'pengaduan.id_pengaduan')
-            ->join('petugas', 'petugas.id', '=', 'tanggapan.id')
-            ->select('pengaduan.*', 'tanggapan.*', 'petugas.*')
-            ->get();
+        $detail = DB::table('pengaduan')
+        ->join('masyarakat', 'masyarakat.nik', '=', 'pengaduan.nik')
+        ->get();
 
-        return view('detail_tanggapan', ['petugas' => $petugas, 'tanggapan' => $tanggapan, 'pengaduan' => $pengaduan]);
+        $tanggapan = DB::table('tanggapan')
+        ->join('pengaduan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
+        ->where('pengaduan.id_pengaduan','=',$id)
+        ->get();
+
+    return view('/petugas-tanggapan', ['tanggapan'=>$tanggapan,'detail'=>$detail,'pengaduan' => $pengaduan]);
     }
 
     function proses_berikan_tanggapan(Request $request, $id)
@@ -164,6 +171,21 @@ class PetugasController extends Controller
             ->where('id_pengaduan', $id)
             ->update(['status' => $status]);
 
-        return redirect('Petugas_home');
+        return redirect()->back();
+    }
+
+    function detail_tanggapan(request $request, $id)
+    {
+        $pengaduan = DB::table('pengaduan')->where('id_pengaduan', $id)->first();
+        $detail = DB::table('pengaduan')
+        ->join('masyarakat', 'masyarakat.nik', '=', 'pengaduan.nik')
+        ->get();
+
+        $tanggapan = DB::table('tanggapan')
+        ->join('pengaduan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
+        ->where('pengaduan.id_pengaduan','=',$id)
+        ->get();
+
+    return view('/detail-tanggapan', ['tanggapan'=>$tanggapan,'detail'=>$detail,'pengaduan' => $pengaduan]);
     }
 }

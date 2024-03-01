@@ -11,20 +11,16 @@
 </head>
 
 <body>
-  @include('layouts.navbar_petugas')
+  @include('layouts.sidebar-petugas')
 
-  <div style="display:flex;justify-content:center;">
-    <h1>{{$TextJudul}}</h1>
-  </div>
-
-  <div class="container">
+  <div class="container" style="margin-top: 6rem;">
+  <h1 class="text-center">Data Petugas</h1>
     <table style="margin-top: 2rem;" class="table">
       <thead>
         <tr>
           <th scope="col" class="table-warning">nik</th>
           <th scope="col" class="table-warning">Nama</th>
           <th scope="col" class="table-warning">username</th>
-          <th scope="col" class="table-warning">password</th>
           <th scope="col" class="table-warning">telepon</th>
           <th scope="col" class="table-warning">level</th>
 
@@ -36,7 +32,6 @@
           <th scope="row" class="table-secondary">{{$petugas->id}}</th>
           <td class="table-secondary">{{$petugas->nama_petugas}}</td>
           <td class="table-secondary">{{$petugas->username}}</td>
-          <td class="table-secondary">{{$petugas->password}}</td>
           <td class="table-secondary">{{$petugas->telp}}</td>
           <td class="table-secondary">{{$petugas->level}}</td>
         </tr>

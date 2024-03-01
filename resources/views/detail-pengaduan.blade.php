@@ -4,42 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/home.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  <title>PengaduanMasyarakat.com</title>
+  <title>Pengaduan Masyarakat</title>
 </head>
 
 <body>
+  @include('layouts.sidebar')
+  <div style=" padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #ffffff; display: flex; align-items: center; margin-top: 6rem; align-items: flex-start;">
+    <!-- Bagian kiri -->
+    <div style="flex: 1;">
 
+      <h1>Nama : @foreach($detail as $item) {{$item->nama}} @break @endforeach</h1>
 
-  <div class="container">
-    <h1 class="text-center">Detail Pengaduan {{$pengaduan->nik}}</h1>
-    <h4>Isi Pengaduan : {{$pengaduan->isi_laporan}}</h4>
-    <img src='{{asset("storage/image/" .$pengaduan->foto)}}' width="100%" height="500px">
-    <p class="mt-2">Tanggal Pengaduan : {{$pengaduan->tgl_pengaduan}}</p>
+      <p>Tanggal Pengaduan: {{$pengaduan->tgl_pengaduan}} Nik :{{$pengaduan->nik}}</p>
+      <img style="border-radius: 5px;width:500px;height:300px" src='{{asset("storage/image/" .$pengaduan->foto)}}'>
+      <h5 style="margin-top: 1rem;">isi pengaduan :</h5>
+      <h4>{{$pengaduan->isi_laporan}}</h4>
+    </div>
 
+    <!-- Bagian kanan -->
+    <div style="flex: 1; margin-top:4rem;">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th style="text-align: center;">Tanggapan Petugas</th>
+          </tr>
+        </thead>
+        <tbody>@foreach($tanggapan as $item)
+          <tr data-bs-toggle="modal" data-bs-target="#myModal1">
+            <td> {{$item->tanggapan}} </td>
+          </tr>@endforeach
+        </tbody>
+      </table>
+    </div>
 
-    <table style="margin-top: 2rem;" class="table">
-      <thead>
-        <tr>@foreach($petugas as $tanggapan)
-          <th class="table-warning">Tanggapan oleh petugas:  
-            {{$tanggapan->nama_petugas}}@break  
-          </th>@endforeach
-        </tr>
-      </thead>
-      <tbody>
-    @foreach($tampil_tanggapan as $tampil_tanggapan)
-        <tr>
-            <td class="table-secondary">
-            {{$tampil_tanggapan->tanggapan}}
-            </td>
-        </tr>
-    @endforeach
-      </tbody>
-    </table>
-
-    <a href="/home" type="button" class="btn btn-success">Why Back To Home</a>
   </div>
 </body>
 

@@ -1,145 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/cc72c425a9.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #563d7c;
-        }
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Form</title>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+  <style>
+    /* Import Google font - Poppins */
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .tombol {
-            border-radius: 4px;
-            background-color: #563d7c;
-            font-weight: 500;
-            color: #ffe484;
-            border: solid 2px #ffe484;
-            outline-color: none;
-            width: 100px;
-            height: 50px;
-            text-decoration: none;
-            text-align: center;
-            padding: 10%;
-        }
+    body {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #4723d9, #331fd6);
+    }
 
-        p,
-        h2 {
-            margin-top: 2rem;
-            color: #563d7c;
-        }
+    .login-container {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+    }
 
-        p {
-            position: relative;
-            right: -2rem;
-        }
+    .login-container:hover {
+      transform: scale(1.05);
+    }
 
-        #tombol {
-            position: relative;
-            right: -6rem;
-            border-radius: 4px;
-            background-color: #563d7c;
-            font-weight: 500;
-            color: #ffe484;
-            border-color: #ffe484;
-            outline-color: none;
-            width: 100px;
-            height: 50px;
-        }
+    .login-container h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
 
-        #input {
-            border-color: #ffe484;
-        }
+    .input-box {
+      position: relative;
+      margin-bottom: 20px;
+      transition: all 0.3s ease-in-out;
+    }
 
+    .input-box:hover {
+      transform: translateX(5px);
+    }
 
-        #bungkusPertama {
-            border-radius: 12px;
-            overflow: hidden;
-            width: 900px;
-            margin-right: 15%;
-            margin-left: 15%;
-            height: 544px;
-            background: hsla(0, 0%, 100%, 0.55);
-            backdrop-filter: blur(10px);
-            display: flex;
+    .input-box input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #ddd;
+      margin-top: 5px;
+      transition: border-color 0.3s ease-in-out;
+    }
 
-        }
+    .input-box:hover input {
+      border-color: #4723d9;
+    }
 
+    .input-box i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #777;
+      transition: color 0.3s ease-in-out;
+    }
 
-        #bungkusform {
-            padding-left: 4rem;
-            display: flex;
-            flex-direction: column;
-        }
+    .input-box:hover i {
+      color: #4723d9;
+    }
 
+    .input-box .fa-user {
+      left: 5px;
+    }
 
-        #bungkusGambar img {
-            width: 450px;
-            height: auto;
+    .input-box .fa-lock {
+      left: 5px;
+    }
 
-        }
+    .input-box .fa-eye,
+    .input-box .fa-eye-slash {
+      right: 5px;
+      cursor: pointer;
+    }
 
-        input {
-            border-radius: 6px;
-            border-color: #ffe484;
-            width: 300px;
-            height: 40px;
-            padding: 1rem;
-            outline: #24E836;
-        }
+    .input-box .fa-eye:hover,
+    .input-box .fa-eye-slash:hover {
+      color: #4723d9;
+    }
 
-        @media only screen and (max-width: 600px) {
-            body {
-                background-color: lightblue;
-                
-            }
-        }
-    </style>
-    <title>Login</title>
+    .button {
+      background: linear-gradient(to right, #4723d9, #331fd6);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      background: linear-gradient(to right, #331fd6, #4723d9);
+    }
+
+    .register-link {
+      color: #4723d9;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      margin-top: 10px;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .register-link:hover {
+      color: #331fd6;
+    }
+  </style>
 </head>
-
 <body>
-    <section class="text-center text-lg-start">
+  <div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+    @method('post')
+        @csrf
+      <div class="input-box">
+        <input type="text" placeholder="Username" name="username" style="padding-left:1.5rem;" required />
+        <i class="uil uil-user fa-user"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" name="password" style="padding-left:1.5rem "required />
+        <i class="uil uil-lock fa-lock"></i>
+        <i class="uil uil-eye fa-eye"></i>
+        <i class="uil uil-eye-slash fa-eye-slash"></i>
+      </div>
+      <button type="submit" class="button">Login</button>
+      <p style="font-size: 10px;margin-top:1rem">Belum punya akun? Silahkan daftar terlebih dahulu.<a href="register" class="register-link">Sing-Up</a></p>
+    </form>
+  </div>
 
-        <nav class="navbar " style="background-color: #563d7c; backdrop-filter: blur(10px);">
-            <div class="container-fluid">
-                <a class="navbar-brand text-light fs-4" href="#">
-                    <img src="https://1000logos.net/wp-content/uploads/2017/08/Chrome-Logo.png" width="100px" heigth="100px">PengaduanMasyarakat.com
-                </a>
-                <form class="d-flex" role="search">
-                    <a href="{{'register'}}" class="tombol" type="submit">Sign up</a>
-                </form>
-            </div>
-        </nav>
-        <hr>
+  <script>
+    const pwShowHide = document.querySelector(".fa-eye");
+    const pwHide = document.querySelector(".fa-eye-slash");
+    const pwInput = document.querySelector("input[type='password']");
 
-        <div id="bungkusPertama">
+    pwShowHide.addEventListener("click", () => {
+      pwInput.type = "text";
+      pwShowHide.style.display = "none";
+      pwHide.style.display = "block";
+    });
 
-            <div id="bungkusGambar">
-                <img src="https://raw.githubusercontent.com/MuhammadArif175/Gambar-Gambar/main/background5.jpg">
-            </div>
-
-
-            <form id="bungkusform" method="post">
-                @method('post')
-                @csrf
-                <h2>Pengaduan Masyarakat</h3>
-                    <label id="username" style="margin-top:3rem;">Masukan Username :</label>
-                    <input for="username" type="name" placeholder="" name="username">
-
-                    <br>
-                    <label id="password">Masukan Password :</label>
-                    <input for="password" type="password" placeholder="" name="password">
-                    <hr>
-
-                    <button id="tombol" style="margin-top:1rem;" type="submit">Login Disini</button>
-                    <p>Belum Punya Akun ? <a href="{{'register'}}">Daftar Disini</a></p>
-            </form>
-        </div>
-        </div>
-    </section>
+    pwHide.addEventListener("click", () => {
+      pwInput.type = "password";
+      pwHide.style.display = "none";
+      pwShowHide.style.display = "block";
+    });
+  </script>
 </body>
-
 </html>

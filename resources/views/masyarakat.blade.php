@@ -11,10 +11,10 @@
 </head>
 
 <body>
-  @include('layouts.navbar')
+  @include('layouts.sidebar-petugas')
 
-  <div style="display:flex;justify-content:center;">
-    <h1>{{$TextJudul}}</h1>
+  <div style="display:flex;justify-content:center; margin-top: 6rem;">
+    <h1>Data Masyarakat</h1>
   </div>
 
   <div class="container">
@@ -23,6 +23,7 @@
         <tr>
           <th scope="col" class="table-warning">nik</th>
           <th scope="col" class="table-warning">Nama</th>
+          <th scope="col" class="table-warning">Username</th>
           <th scope="col" class="table-warning">telepon</th>
         </tr>
       </thead>
@@ -31,6 +32,7 @@
         <tr>
           <th scope="row" class="table-secondary">{{$masyarakat->nik}}</th>
           <td class="table-secondary">{{$masyarakat->nama}}</td>
+          <td class="table-secondary">{{$masyarakat->username}}</td>
           <td class="table-secondary">{{$masyarakat->telepon}}</td>
         </tr>
         @endforeach

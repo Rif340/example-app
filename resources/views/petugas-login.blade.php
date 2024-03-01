@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register Form</title>
+  <title>Login Form</title>
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-  <script src="https://kit.fontawesome.com/cc72c425a9.js" crossorigin="anonymous"></script>
   <style>
     /* Import Google font - Poppins */
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
@@ -24,39 +23,31 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(to right, #4723d9, #afa5d9);
+      background: linear-gradient(to right, #4723d9, #331fd6);
     }
 
-    .form-container {
-      display: grid;
-      gap: 15px;
-      justify-content: center;
-    }
-
-    .register-container {
+    .login-container {
       background: #fff;
       border-radius: 8px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      padding: 15px;
+      padding: 20px;
+      width: 300px;
       text-align: center;
       transition: transform 0.3s ease-in-out;
-     width: 380px; /* Adjust as needed */
-      margin: auto;
     }
 
-    .register-container:hover {
+    .login-container:hover {
       transform: scale(1.05);
     }
 
-    .register-container h2 {
+    .login-container h2 {
       color: #333;
-      margin-bottom: 15px;
-      font-size: 18px;
+      margin-bottom: 20px;
     }
 
     .input-box {
       position: relative;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       transition: all 0.3s ease-in-out;
     }
 
@@ -66,7 +57,7 @@
 
     .input-box input {
       width: calc(100% - 20px);
-      padding: 8px;
+      padding: 10px;
       border: none;
       outline: none;
       border-bottom: 1px solid #ddd;
@@ -82,7 +73,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
+      font-size: 18px;
       color: #777;
       transition: color 0.3s ease-in-out;
     }
@@ -91,9 +82,14 @@
       color: #4723d9;
     }
 
-    .input-box .fa-user,
-    .input-box .fa-lock,
-    .input-box .fa-envelope,
+    .input-box .fa-user {
+      left: 5px;
+    }
+
+    .input-box .fa-lock {
+      left: 5px;
+    }
+
     .input-box .fa-eye,
     .input-box .fa-eye-slash {
       right: 5px;
@@ -106,7 +102,7 @@
     }
 
     .button {
-      background:  #4723d9;
+      background: linear-gradient(to right, #4723d9, #331fd6);
       color: #fff;
       border: none;
       padding: 10px 20px;
@@ -116,59 +112,56 @@
     }
 
     .button:hover {
-        background: #afa5d9;
+      background: linear-gradient(to right, #331fd6, #4723d9);
     }
 
-    .login-link {
+    .register-link {
       color: #4723d9;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 14px;
       display: block;
-      margin-top: 8px;
+      margin-top: 10px;
       transition: color 0.3s ease-in-out;
     }
 
-    .login-link:hover {
-      color: #afa5d9;
+    .register-link:hover {
+      color: #331fd6;
     }
-    
   </style>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-  <div class="form-container">
-    <div class="register-container">
-      <h2>Register</h2>
-      <form action="{{'register'}}" method="post">
-      @method('post')
+  <div class="login-container">
+  @if (session()->has('info'))
+        <div class="alert alert-success" role="alert" style="text-align: center; width:50%; margin:auto;">
+            {{ session('info') }}
+        </div>
+        @endif
+        @if(session('info'))
+           <script>
+               setTimeout(function () {
+                   document.querySelector('.alert').style.display = 'none';
+               }, 3000); // Menyembunyikan alert setelah 3 detik
+           </script>
+           @endif
+    <h2>Login</h2>
+    <form action="{{url('/petugas-login')}}" method="post">
+    @method('post')
         @csrf
-        <div class="input-box">
-          <input type="text" placeholder="Username" name="username" style="padding-left:1.5rem;" required />
-          <i class="fa-regular fa-user"></i>
-        </div>
-        <div class="input-box">
-          <input type="name" placeholder="Full Name" name="nama" style="padding-left:1.5rem "required />
-          <i class="fa-solid fa-address-card"></i>
-        </div>
-        <div class="input-box">
-          <input type="number" placeholder="Nik" name="nik" style="padding-left:1.5rem "required />
-          <i class="fa-solid fa-address-card"></i>
-        </div>
-        <div class="input-box">
-          <input type="number" placeholder="No telepon" name="telepon" style="padding-left:1.5rem "required />
-          <i class="fa-solid fa-address-card"></i>
-        </div>
-        <div class="input-box">
-          <input type="password" placeholder="Password" name="password" style="padding-left:1.5rem "required />
-          <i class="fa-solid fa-eye"></i>
-          <i class="fa-solid fa-eye-slash"></i>
-        </div>
-        <button type="submit" class="button">Register</button>
-        <a href="/login" class="login-link">Sudah punya akun? Login sekarang.</a>
-      </form>
-    </div>
+      <div class="input-box">
+        <input type="text" placeholder="Username" name="username" style="padding-left:1.5rem;" required />
+        <i class="uil uil-user fa-user"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" name="password" style="padding-left:1.5rem "required />
+        <i class="uil uil-lock fa-lock"></i>
+        <i class="uil uil-eye fa-eye"></i>
+        <i class="uil uil-eye-slash fa-eye-slash"></i>
+      </div>
+      <button type="submit" class="button">Login</button>
+      <p style="font-size: 10px;margin-top:1rem">Belum punya akun? Silahkan daftar terlebih dahulu.<a href="{{'petugas-register'}}" class="register-link">Sing-Up</a></p>
+    </form>
   </div>
-    
+
   <script>
     const pwShowHide = document.querySelector(".fa-eye");
     const pwHide = document.querySelector(".fa-eye-slash");

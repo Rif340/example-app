@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CekPetugas
+class admin
 {
     /**
      * Handle an incoming request.
@@ -20,10 +20,10 @@ class CekPetugas
     {
         $user = Auth::guard('CekPetugas')->user();
 
-        if ($user && ($user->level == 'petugas' || $user->level == 'admin')) {
+        if ($user && ($user->level == 'admin')) {
             return $next($request);
         } else {
-            return redirect("/petugas-login");
+            return redirect()->back();
         }
     }
 }

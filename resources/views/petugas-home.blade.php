@@ -54,7 +54,7 @@
   </style>
 </head>
 <body>
-  @include('layouts.sidebar')
+  @include('layouts.sidebar-petugas')
   <!--Container Main start-->
     <div class="height-100" style="margin-top: 100px;">
      <!--Widget Start-->

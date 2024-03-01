@@ -19,11 +19,18 @@ class PengaduanController extends Controller
 {
     function index()
     {
-        $judul = "Pengaduan Home";
-        $pengaduan = pengaduan::all();
+        $masyarakat =DB::table('masyarakat')->count('nama');
+        $pengaduan = DB::table('pengaduan')->count('isi_laporan');
+        $petugas = DB::table('petugas')->count('nama_petugas');
+        $tanggapan = DB::table('tanggapan')->count('tanggapan');
 
-        return view('home', ['TextJudul' =>  $judul, 'pengaduan' => $pengaduan]);
-        // $pengaduan = DB::table('pengaduan')->get();
+        return view('/home', ['tanggapan'=>$tanggapan,'petugas'=>$petugas,'masyarakat' =>  $masyarakat, 'pengaduan' => $pengaduan]);
+       
+    }
+
+    function pengaduan(){
+        $pengaduan = DB::table('pengaduan')->get();
+        return view('/pengaduan',['pengaduan'=>$pengaduan]);
     }
 
     function tampil_pengaduan()
@@ -55,7 +62,7 @@ class PengaduanController extends Controller
         ]);
 
         
-        return redirect('/home');
+        return redirect('/pengaduan')->with('info','Pengaduan Anda Telah Dibuat Silah Tunggu Balasan Dari Kami');
     }
 
     function hapus($id)
@@ -63,23 +70,23 @@ class PengaduanController extends Controller
         echo $id;
         $deleted = DB::table('pengaduan')->where('id_pengaduan', $id)->delete();
         if ($deleted) {
-            return redirect('/home');
+            return redirect('/pengaduan')->with('info2','laporan anda berhasil dihapus');
         }
     }
 
     function detail_pengaduan($id)
     {
         $pengaduan = DB::table('pengaduan')->where('id_pengaduan', $id)->first();
-        $petugas = DB::table('petugas')->get();
-        $tampil_tanggapan = DB::table('tanggapan')->get();
-        $tanggapan = DB::table('tanggapan')
-            ->join('pengaduan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
-            ->join('petugas', 'petugas.id', '=', 'tanggapan.id')
-            ->select('pengaduan.*', 'tanggapan.*', )
+            $detail = DB::table('pengaduan')
+            ->join('masyarakat', 'masyarakat.nik', '=', 'pengaduan.nik')
             ->get();
-        
 
-        return view('detail-pengaduan', ['tampil_tanggapan'=> $tampil_tanggapan,'petugas' => $petugas, 'tanggapan' => $tanggapan, 'pengaduan' => $pengaduan]);
+            $tanggapan = DB::table('tanggapan')
+            ->join('pengaduan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
+            ->where('pengaduan.id_pengaduan','=',$id)
+            ->get();
+
+        return view('detail-pengaduan', ['tanggapan'=>$tanggapan,'detail'=>$detail,'pengaduan' => $pengaduan]);
 
     }
 
@@ -92,11 +99,16 @@ class PengaduanController extends Controller
 
     function proses_update_pengaduan(Request $request, $id){
         $isi_laporan = $request->isi_laporan;
+        $nama_foto=$request->foto->getClientOriginalName();
+        $request->foto->storeAs('public/image',$nama_foto);
 
         DB::table('pengaduan')
         ->where('id_pengaduan', $id)
-        ->update(['isi_laporan' => $isi_laporan]);
+        ->update([
+            'isi_laporan' => $isi_laporan,
+            'foto' => $request->foto->getClientOriginalName()
+    ]);
 
-    return redirect('/home');
+    return redirect('/pengaduan')->with('info','Laporan Anda berhasil Di Ganti');
     }
 }

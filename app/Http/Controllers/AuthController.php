@@ -30,32 +30,34 @@ class AuthController extends Controller
 
     function register(Request $request)
     {
-        $nik = $request -> nik;
-        $nama = $request -> nama;
         $username = $request -> username;
-        $password = $request -> password;
+        $nama = $request -> nama;
+        $nik = $request -> nik;
         $telepon = $request -> telepon;
-
+        $password = $request -> password;
+       
         DB::table('masyarakat')->insert([
-            'nik' => $nik,
-            'nama' => $nama,
             'username' => $username,
-            'password' => Hash::make($request->password),
-            'telepon' => $telepon
+            'nama' => $nama,
+            'nik' => $nik,
+            'telepon' => $telepon,
+            'password' => Hash::make($request->password)
         ]);
 
         return redirect('/login');
     }
 
-    function login(Request $request)
+    public function login(Request $request)
     {
         $data = $request->only("username", "password");
-        if (Auth::attempt($data)){
+    
+        if (Auth::attempt($data)) {
+            // Jika login berhasil, redirect ke '/home' dengan membawa data
             return redirect('/home');
-        }else {
+        } else {
+            // Jika login gagal, tampilkan halaman login kembali
             return view('login');
         }
-        
     }
     
     function tampil_login()

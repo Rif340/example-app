@@ -22,7 +22,7 @@ jobs:
       run: composer install --no-dev --prefer-dist --optimize-autoloader
 
     - name: Build site
-      run: php login.blade.php
+      run: login.blade.php
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
